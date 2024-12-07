@@ -90,6 +90,11 @@ function principal (){
                 break;
             case 2:
                 let nombreEncontrarProducto = prompt("¿a que producto le queres agregar precio de costo?");
+                if (!validarExistencia(nombreEncontrarProducto)){
+                    alert("El producto no existe");
+                    bandera = confirm("¿quiere seguir operando?");
+                    break;
+                }
                 let precioCosto = logicaDeValidacion("¿Cual es el precio de costo del producto?");
                 agregarPrecioCostoVenta(nombreEncontrarProducto, precioCosto);
                 bandera = confirm("¿quiere seguir operando?");
