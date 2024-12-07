@@ -7,6 +7,7 @@ function agregarProducto(nombreProducto, cantidadQueSeVende, descripcion){
         cantidadQueSeVende,
         descripcion,
     })
+    
 }
 
 function validarDatos(dato) {
@@ -24,6 +25,13 @@ function logicaDeValidacion(pregunta) {
     }
     return numero;
 }
+
+function validarExistencia(nombreProducto) {
+    let productoEncontrado = Productos.find(product => product.nombreProducto === nombreProducto);
+    let validacion = Productos.includes(productoEncontrado)
+    return validacion 
+}
+
 function agregarPrecioCostoVenta(nombreProducto, precioCosto){
     let productoEncontrado = Productos.find(product => product.nombreProducto === nombreProducto);
     let precioVenta = (precioCosto*1.14).toFixed(2);
@@ -64,13 +72,17 @@ function principal (){
     let bandera = true;
 
     while (bandera){
-        let opciones = Number(prompt("Bienvenido a tu tienda OnLine, ¿que quiere hacer?:\n 1-Agregar un producto\n 2-Agregar precio de costo y venta\n 3-Eliminar un producto\n 4-Mostrar prodcutos"));
-    
+        let opciones = Number(prompt("Bienvenido a tu tienda OnLine, ¿que quiere hacer?:\n 1-Agregar un producto\n 2-Agregar precio de costo y venta\n 3-Eliminar un producto\n 4-Mostrar prodcutos\n 5-Cerrar sesion"));
         switch (opciones){
             case 0:
                 return;
             case 1:
                 let nombreProducto = prompt("¿Que nombre le vas a poner al producto que queres vender?");
+                if (validarExistencia (nombreProducto)){
+                    alert("El producto ya existe");
+                    bandera = confirm("¿quiere seguir operando?");
+                    break;
+                }
                 let cantidadQueSeVende = logicaDeValidacion("¿Por que cantidad vendes el producto?");
                 let descripcion = prompt("¿desea agregar una breve descripcion acerca del producto?");
                 agregarProducto(nombreProducto, cantidadQueSeVende, descripcion)
@@ -90,6 +102,10 @@ function principal (){
             case 4:
                 mostrarProductos()
                 bandera = confirm("¿quiere seguir operando?");
+                break;
+            case 5:
+            alert("Gracias por utilizar nuestro sistema!");
+            bandera = false;
                 break;
             default:
                 bandera = confirm("Operacion invalida ¿quiere seguir operando?");
